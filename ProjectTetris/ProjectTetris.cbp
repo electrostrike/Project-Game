@@ -38,7 +38,11 @@
 			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2-2.0.20/x86_64-w64-mingw32/lib" />
 			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_image-2.0.5/x86_64-w64-mingw32/lib" />
 		</Linker>
-		<Unit filename="ProjectTetris.cpp" />
+		<Unit filename="Tetromino.cpp" />
+		<Unit filename="Tetromino.hpp" />
+		<Unit filename="Texture.cpp" />
+		<Unit filename="Texture.hpp" />
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
