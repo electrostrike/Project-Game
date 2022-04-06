@@ -1,3 +1,6 @@
+#ifndef TETROMINO_HPP
+#define TETROMINO_HPP
+
 #include "Texture.hpp"
 
 using namespace std;
@@ -5,9 +8,8 @@ using namespace std;
 class Tetromino
 {
     public:
-        Tetromino();
-        void Init(int block);
-        void Draw(SDL_Renderer*);
+        Tetromino(int block);
+        void Draw(SDL_Renderer* renderer);
         void MoveLeft();
         void MoveRight();
         void MoveDown();
@@ -21,3 +23,5 @@ class Tetromino
         int cur_rotation; //0 - 90 - 180 - 270
         bool cur_piece[4][4][4]; //Rotation - Y (Row) - X (Column)
 };
+
+#endif // TETROMINO_HPP

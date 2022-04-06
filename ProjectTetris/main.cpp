@@ -3,23 +3,15 @@
 #include <SDL_image.h>
 #include "Texture.hpp"
 #include "Button.hpp"
+#include "Board.hpp"
 #include "Tetromino.hpp"
 using namespace std;
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
-const int BUTTON_WIDTH = 200;
-const int BUTTON_HEIGHT = 100;
-
 const int DEFAULT_X = 0;
 const int DEFAULT_Y = 0;
-
-const int PLAY_BUTTON_X = 300;
-const int PLAY_BUTTON_Y = 300;
-
-const int HOW_TO_PLAY_BUTTON_X = 300;
-const int HOW_TO_PLAY_BUTTON_Y = 450;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
@@ -34,6 +26,8 @@ Texture playButton;
 SDL_Rect clipHowToPlayButton = {DEFAULT_X, DEFAULT_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
 Button howToPlay(HOW_TO_PLAY_BUTTON_X, HOW_TO_PLAY_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
 Texture howToPlayButton;
+
+Board game;
 
 bool init()
 {
@@ -73,12 +67,16 @@ bool init()
     return 1;
 }
 
-bool loadMedia()
+void loadMediaHome()
 {
     homeScreen.LoadTexture("image/homescreen.png", renderer);
     playButton.LoadTexture("image/playbutton.png", renderer);
     howToPlayButton.LoadTexture("image/howtoplaybutton.png", renderer);
-    return 1;
+}
+
+void loadMediaGame()
+{
+
 }
 
 void close()
@@ -99,26 +97,51 @@ int main(int argc, char* argv[])
     }
     else
     {
-        if (!loadMedia())
+        loadMediaHome();
+        bool quitHome = 0;
+        SDL_Event eHome;
+        while (!quitHome)
         {
-            cout << "Failed to load media\n";
-        }
-        else
-        {
-            bool quit = 0;
-            SDL_Event e;
-            while (!quit)
+            while (SDL_PollEvent(&eHome) != 0)
             {
-                while (SDL_PollEvent(&e) != 0)
+                if (eHome.type == SDL_QUIT)
+                    quitHome = 1;
+                if (eHome.type == SDL_MOUSEBUTTONDOWN)
                 {
-                    if (e.type == SDL_QUIT)
-                        quit = 1;
+                    play.HandleEvent(&eHome);
+                    howToPlay.HandleEvent(&eHome);
                 }
-                SDL_RenderClear(renderer);
-                homeScreen.RenderTexture(renderer, DEFAULT_X, DEFAULT_Y, &clipHomeScreen);
-                playButton.RenderTexture(renderer, PLAY_BUTTON_X, PLAY_BUTTON_Y, &clipPlayButton);
-                howToPlayButton.RenderTexture(renderer, HOW_TO_PLAY_BUTTON_X, HOW_TO_PLAY_BUTTON_Y, &clipHowToPlayButton);
-                SDL_RenderPresent(renderer);
+            }
+            SDL_RenderClear(renderer);
+            homeScreen.RenderTexture(renderer, DEFAULT_X, DEFAULT_Y, &clipHomeScreen);
+            playButton.RenderTexture(renderer, PLAY_BUTTON_X, PLAY_BUTTON_Y, &clipPlayButton);
+            howToPlayButton.RenderTexture(renderer, HOW_TO_PLAY_BUTTON_X, HOW_TO_PLAY_BUTTON_Y, &clipHowToPlayButton);
+            SDL_RenderPresent(renderer);
+            if (play.buttonSprite == 2)
+            {
+                bool quitGame = 0;
+                SDL_Event eGame;
+                while (!quitGame)
+                {
+                    while (SDL_PollEvent(&eGame) != 0)
+                    {
+                        if (eGame.type == SDL_KEYDOWN)
+                        {
+                            switch (eGame.key.keysym.sym)
+                            case SDLK_ESCAPE:
+                                quitGame = 1;
+                                break;
+                        }
+                        if (eGame.type == SDL_QUIT)
+                            quitGame = 1, quitHome = 1;
+                    }
+                    SDL_RenderClear(renderer);
+                    game.DrawBoard(renderer);
+                    game.DrawTetromino(renderer);
+                    Tetromino test(6);
+                    test.Draw(renderer);
+                    SDL_RenderPresent(renderer);
+                }
             }
         }
     }
