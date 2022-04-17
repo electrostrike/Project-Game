@@ -1,184 +1,189 @@
 #include "Tetromino.hpp"
 
-Tetromino::Tetromino(int block)
+Tetromino::Tetromino(int _block)
 {
-    cur_rotation = 0;
-    cur_x = 3;
-    cur_y = 0;
-    cur_block = block;
+    rotation = 0;
+    x = 3;
+    y = -2;
+    block = _block;
     for (int rotation = 0; rotation < 4; rotation++)
-        for (int x = 0; x < 4; x++)
-            for (int y = 0; y < 4; y++)
-                cur_piece[rotation][x][y] = 0;
-    switch (cur_block)
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                piece[rotation][i][j] = 0;
+    switch (block)
     {
         case 0: // I
-            cur_piece[0][0][1] = cur_piece[0][1][1] = cur_piece[0][2][1] = cur_piece[0][3][1] = 1;  // 0000
-                                                                                                    // 1111
-                                                                                                    // 0000
-                                                                                                    // 0000
+            piece[0][0][1] = piece[0][1][1] = piece[0][2][1] = piece[0][3][1] = 1;  // 0000
+                                                                                    // 1111
+                                                                                    // 0000
+                                                                                    // 0000
 
-            cur_piece[1][2][0] = cur_piece[1][2][1] = cur_piece[1][2][2] = cur_piece[1][2][3] = 1;  // 0010
-                                                                                                    // 0010
-                                                                                                    // 0010
-                                                                                                    // 0010
+            piece[1][2][0] = piece[1][2][1] = piece[1][2][2] = piece[1][2][3] = 1;  // 0010
+                                                                                    // 0010
+                                                                                    // 0010
+                                                                                    // 0010
 
-            cur_piece[2][0][2] = cur_piece[2][1][2] = cur_piece[2][2][2] = cur_piece[2][3][2] = 1;  // 0000
-                                                                                                    // 0000
-                                                                                                    // 1111
-                                                                                                    // 0000
+            piece[2][0][2] = piece[2][1][2] = piece[2][2][2] = piece[2][3][2] = 1;  // 0000
+                                                                                    // 0000
+                                                                                    // 1111
+                                                                                    // 0000
 
-            cur_piece[3][1][0] = cur_piece[3][1][1] = cur_piece[3][1][2] = cur_piece[3][1][3] = 1;  // 0100
-                                                                                                    // 0100
-                                                                                                    // 0100
-                                                                                                    // 0100
+            piece[3][1][0] = piece[3][1][1] = piece[3][1][2] = piece[3][1][3] = 1;  // 0100
+                                                                                    // 0100
+                                                                                    // 0100
+                                                                                    // 0100
 
             break;
 
         case 1: // J
-            cur_piece[0][0][1] = cur_piece[0][0][2] = cur_piece[0][1][2] = cur_piece[0][2][2] = 1;  // 0000
-                                                                                                    // 1000
-                                                                                                    // 1110
-                                                                                                    // 0000
+            piece[0][0][1] = piece[0][0][2] = piece[0][1][2] = piece[0][2][2] = 1;  // 0000
+                                                                                    // 1000
+                                                                                    // 1110
+                                                                                    // 0000
 
-            cur_piece[1][2][1] = cur_piece[1][1][1] = cur_piece[1][1][2] = cur_piece[1][1][3] = 1;  // 0000
-                                                                                                    // 0110
-                                                                                                    // 0100
-                                                                                                    // 0100
+            piece[1][2][1] = piece[1][1][1] = piece[1][1][2] = piece[1][1][3] = 1;  // 0000
+                                                                                    // 0110
+                                                                                    // 0100
+                                                                                    // 0100
 
-            cur_piece[2][0][2] = cur_piece[2][1][2] = cur_piece[2][2][2] = cur_piece[2][2][3] = 1;  // 0000
-                                                                                                    // 0000
-                                                                                                    // 1110
-                                                                                                    // 0010
+            piece[2][0][2] = piece[2][1][2] = piece[2][2][2] = piece[2][2][3] = 1;  // 0000
+                                                                                    // 0000
+                                                                                    // 1110
+                                                                                    // 0010
 
-            cur_piece[3][1][1] = cur_piece[3][1][2] = cur_piece[3][1][3] = cur_piece[3][0][3] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 0100
-                                                                                                    // 1100
+            piece[3][1][1] = piece[3][1][2] = piece[3][1][3] = piece[3][0][3] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 0100
+                                                                                    // 1100
 
             break;
 
         case 2: // L
-            cur_piece[0][2][1] = cur_piece[0][2][2] = cur_piece[0][1][2] = cur_piece[0][0][2] = 1;  // 0000
-                                                                                                    // 0010
-                                                                                                    // 1110
-                                                                                                    // 0000
+            piece[0][2][1] = piece[0][2][2] = piece[0][1][2] = piece[0][0][2] = 1;  // 0000
+                                                                                    // 0010
+                                                                                    // 1110
+                                                                                    // 0000
 
-            cur_piece[1][2][3] = cur_piece[1][1][3] = cur_piece[1][1][2] = cur_piece[1][1][1] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 0100
-                                                                                                    // 0110
+            piece[1][2][3] = piece[1][1][3] = piece[1][1][2] = piece[1][1][1] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 0100
+                                                                                    // 0110
 
-            cur_piece[2][0][3] = cur_piece[2][0][2] = cur_piece[2][1][2] = cur_piece[2][2][2] = 1;  // 0000
-                                                                                                    // 0000
-                                                                                                    // 1110
-                                                                                                    // 1000
+            piece[2][0][3] = piece[2][0][2] = piece[2][1][2] = piece[2][2][2] = 1;  // 0000
+                                                                                    // 0000
+                                                                                    // 1110
+                                                                                    // 1000
 
-            cur_piece[3][0][1] = cur_piece[3][1][1] = cur_piece[3][1][2] = cur_piece[3][1][3] = 1;  // 0000
-                                                                                                    // 1100
-                                                                                                    // 0100
-                                                                                                    // 0100
+            piece[3][0][1] = piece[3][1][1] = piece[3][1][2] = piece[3][1][3] = 1;  // 0000
+                                                                                    // 1100
+                                                                                    // 0100
+                                                                                    // 0100
 
             break;
 
         case 3: // O
-            cur_piece[0][1][1] = cur_piece[0][2][1] = cur_piece[0][1][2] = cur_piece[0][2][2] = 1;  // 0000
-                                                                                                    // 0110
-                                                                                                    // 0110
-                                                                                                    // 0000
+            piece[0][1][1] = piece[0][2][1] = piece[0][1][2] = piece[0][2][2] = 1;  // 0000
+                                                                                    // 0110
+                                                                                    // 0110
+                                                                                    // 0000
 
-            cur_piece[1][1][1] = cur_piece[1][2][1] = cur_piece[1][1][2] = cur_piece[1][2][2] = 1;  // 0000
-                                                                                                    // 0110
-                                                                                                    // 0110
-                                                                                                    // 0000
+            piece[1][1][1] = piece[1][2][1] = piece[1][1][2] = piece[1][2][2] = 1;  // 0000
+                                                                                    // 0110
+                                                                                    // 0110
+                                                                                    // 0000
 
-            cur_piece[2][1][1] = cur_piece[2][2][1] = cur_piece[2][1][2] = cur_piece[2][2][2] = 1;  // 0000
-                                                                                                    // 0110
-                                                                                                    // 0110
-                                                                                                    // 0000
+            piece[2][1][1] = piece[2][2][1] = piece[2][1][2] = piece[2][2][2] = 1;  // 0000
+                                                                                    // 0110
+                                                                                    // 0110
+                                                                                    // 0000
 
-            cur_piece[3][1][1] = cur_piece[3][2][1] = cur_piece[3][1][2] = cur_piece[3][2][2] = 1;  // 0000
-                                                                                                    // 0110
-                                                                                                    // 0110
-                                                                                                    // 0000
+            piece[3][1][1] = piece[3][2][1] = piece[3][1][2] = piece[3][2][2] = 1;  // 0000
+                                                                                    // 0110
+                                                                                    // 0110
+                                                                                    // 0000
 
             break;
 
         case 4: // S
-            cur_piece[0][0][2] = cur_piece[0][1][2] = cur_piece[0][1][1] = cur_piece[0][2][1] = 1;  // 0000
-                                                                                                    // 0110
-                                                                                                    // 1100
-                                                                                                    // 0000
+            piece[0][0][2] = piece[0][1][2] = piece[0][1][1] = piece[0][2][1] = 1;  // 0000
+                                                                                    // 0110
+                                                                                    // 1100
+                                                                                    // 0000
 
-            cur_piece[1][1][1] = cur_piece[1][1][2] = cur_piece[1][2][2] = cur_piece[1][2][3] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 0110
-                                                                                                    // 0010
+            piece[1][1][1] = piece[1][1][2] = piece[1][2][2] = piece[1][2][3] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 0110
+                                                                                    // 0010
 
-            cur_piece[2][2][2] = cur_piece[2][1][2] = cur_piece[2][1][3] = cur_piece[2][0][3] = 1;  // 0000
-                                                                                                    // 0000
-                                                                                                    // 0110
-                                                                                                    // 1100
+            piece[2][2][2] = piece[2][1][2] = piece[2][1][3] = piece[2][0][3] = 1;  // 0000
+                                                                                    // 0000
+                                                                                    // 0110
+                                                                                    // 1100
 
-            cur_piece[3][1][3] = cur_piece[3][1][2] = cur_piece[3][0][2] = cur_piece[3][0][1] = 1;  // 0000
-                                                                                                    // 1000
-                                                                                                    // 1100
-                                                                                                    // 0100
+            piece[3][1][3] = piece[3][1][2] = piece[3][0][2] = piece[3][0][1] = 1;  // 0000
+                                                                                    // 1000
+                                                                                    // 1100
+                                                                                    // 0100
 
             break;
 
         case 5: // T
-            cur_piece[0][1][1] = cur_piece[0][0][2] = cur_piece[0][1][2] = cur_piece[0][2][2] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 1110
-                                                                                                    // 0000
+            piece[0][1][1] = piece[0][0][2] = piece[0][1][2] = piece[0][2][2] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 1110
+                                                                                    // 0000
 
-            cur_piece[1][2][2] = cur_piece[1][1][1] = cur_piece[1][1][2] = cur_piece[1][1][3] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 0110
-                                                                                                    // 0100
+            piece[1][2][2] = piece[1][1][1] = piece[1][1][2] = piece[1][1][3] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 0110
+                                                                                    // 0100
 
-            cur_piece[2][1][3] = cur_piece[2][0][2] = cur_piece[2][1][2] = cur_piece[2][2][2] = 1;  // 0000
-                                                                                                    // 0000
-                                                                                                    // 1110
-                                                                                                    // 0100
+            piece[2][1][3] = piece[2][0][2] = piece[2][1][2] = piece[2][2][2] = 1;  // 0000
+                                                                                    // 0000
+                                                                                    // 1110
+                                                                                    // 0100
 
-            cur_piece[3][0][2] = cur_piece[3][1][1] = cur_piece[3][1][2] = cur_piece[3][1][3] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 1100
-                                                                                                    // 0100
+            piece[3][0][2] = piece[3][1][1] = piece[3][1][2] = piece[3][1][3] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 1100
+                                                                                    // 0100
 
             break;
 
         case 6: // Z
-            cur_piece[0][0][1] = cur_piece[0][1][1] = cur_piece[0][1][2] = cur_piece[0][2][2] = 1;  // 0000
-                                                                                                    // 1100
-                                                                                                    // 0110
-                                                                                                    // 0000
+            piece[0][0][1] = piece[0][1][1] = piece[0][1][2] = piece[0][2][2] = 1;  // 0000
+                                                                                    // 1100
+                                                                                    // 0110
+                                                                                    // 0000
 
-            cur_piece[1][2][1] = cur_piece[1][2][2] = cur_piece[1][1][2] = cur_piece[1][1][3] = 1;  // 0000
-                                                                                                    // 0010
-                                                                                                    // 0110
-                                                                                                    // 0100
+            piece[1][2][1] = piece[1][2][2] = piece[1][1][2] = piece[1][1][3] = 1;  // 0000
+                                                                                    // 0010
+                                                                                    // 0110
+                                                                                    // 0100
 
-            cur_piece[2][2][3] = cur_piece[2][1][3] = cur_piece[2][1][2] = cur_piece[2][0][2] = 1;  // 0000
-                                                                                                    // 0000
-                                                                                                    // 1100
-                                                                                                    // 0110
+            piece[2][2][3] = piece[2][1][3] = piece[2][1][2] = piece[2][0][2] = 1;  // 0000
+                                                                                    // 0000
+                                                                                    // 1100
+                                                                                    // 0110
 
-            cur_piece[3][0][3] = cur_piece[3][0][2] = cur_piece[3][1][2] = cur_piece[3][1][1] = 1;  // 0000
-                                                                                                    // 0100
-                                                                                                    // 1100
-                                                                                                    // 1000
+            piece[3][0][3] = piece[3][0][2] = piece[3][1][2] = piece[3][1][1] = 1;  // 0000
+                                                                                    // 0100
+                                                                                    // 1100
+                                                                                    // 1000
 
             break;
     }
 }
 
+Tetromino::~Tetromino()
+{
+
+}
+
 void Tetromino::Draw(SDL_Renderer *renderer)
 {
     //set color
-    switch (cur_block)
+    switch (block)
     {
         case 0: // I
             SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0xff, 0xff);
@@ -211,41 +216,41 @@ void Tetromino::Draw(SDL_Renderer *renderer)
     }
 
     //fill color
-    for (int x = 0; x < 4; x++)
-        for (int y = 0; y < 4; y++)
-            if (cur_piece[cur_rotation][x][y])
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (piece[rotation][i][j])
             {
-                SDL_Rect rect{(cur_x + x) * 30 + 1 + 250, (cur_y + y) * 30 + 1, 30 - 1, 30 - 1};
+                SDL_Rect rect{(x + i) * 30 + 1 + 250, (y + j) * 30 + 1, 30 - 1, 30 - 1};
                 SDL_RenderFillRect(renderer, &rect);
             }
 }
 
 void Tetromino::MoveLeft()
 {
-    cur_x++;
+    x--;
 }
 
 void Tetromino::MoveRight()
 {
-    cur_x--;
+    x++;
 }
 
 void Tetromino::MoveDown()
 {
-    cur_y++;
+    y++;
 }
 
 void Tetromino::RotateCW() //rotate right
 {
-    cur_rotation++;
-    if (cur_rotation == 4)
-        cur_rotation = 0;
+    rotation++;
+    if (rotation == 4)
+        rotation = 0;
 }
 
 void Tetromino::RotateCCW() // rotate left
 {
-    cur_rotation--;
-    if (cur_rotation == -1)
-        cur_rotation = 3;
+    rotation--;
+    if (rotation == -1)
+        rotation = 3;
 }
 

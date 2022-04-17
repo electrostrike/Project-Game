@@ -1,4 +1,6 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <SDL.h>
 #include <SDL_image.h>
 #include "Texture.hpp"
@@ -10,22 +12,22 @@ using namespace std;
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
-const int DEFAULT_X = 0;
-const int DEFAULT_Y = 0;
-
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
-SDL_Rect clipHomeScreen = {DEFAULT_X, DEFAULT_Y, WIDTH, HEIGHT};
+SDL_Rect clipHomeScreen = {0, 0, WIDTH, HEIGHT};
 Texture homeScreen;
 
-SDL_Rect clipPlayButton = {DEFAULT_X, DEFAULT_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
+SDL_Rect clipPlayButton = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};
 Button play(PLAY_BUTTON_X, PLAY_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
 Texture playButton;
 
-SDL_Rect clipHowToPlayButton = {DEFAULT_X, DEFAULT_Y, BUTTON_WIDTH, BUTTON_HEIGHT};
+SDL_Rect clipHowToPlayButton = {0, 0, BUTTON_WIDTH, BUTTON_HEIGHT};
 Button howToPlay(HOW_TO_PLAY_BUTTON_X, HOW_TO_PLAY_BUTTON_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
 Texture howToPlayButton;
+
+SDL_Rect clipSettings = {0, 0, WIDTH / 2, HEIGHT / 2};
+Texture settings;
 
 Board game;
 
@@ -67,16 +69,12 @@ bool init()
     return 1;
 }
 
-void loadMediaHome()
+void loadMedia()
 {
     homeScreen.LoadTexture("image/homescreen.png", renderer);
     playButton.LoadTexture("image/playbutton.png", renderer);
     howToPlayButton.LoadTexture("image/howtoplaybutton.png", renderer);
-}
-
-void loadMediaGame()
-{
-
+    settings.LoadTexture("image/settings.png", renderer);
 }
 
 void close()
@@ -91,13 +89,14 @@ void close()
 
 int main(int argc, char* argv[])
 {
+    srand(time(NULL));
     if (!init())
     {
         cout << "Failed to initialize\n";
     }
     else
     {
-        loadMediaHome();
+        loadMedia();
         bool quitHome = 0;
         SDL_Event eHome;
         while (!quitHome)
@@ -112,34 +111,146 @@ int main(int argc, char* argv[])
                     howToPlay.HandleEvent(&eHome);
                 }
             }
+
+            // load homescreen
             SDL_RenderClear(renderer);
-            homeScreen.RenderTexture(renderer, DEFAULT_X, DEFAULT_Y, &clipHomeScreen);
-            playButton.RenderTexture(renderer, PLAY_BUTTON_X, PLAY_BUTTON_Y, &clipPlayButton);
-            howToPlayButton.RenderTexture(renderer, HOW_TO_PLAY_BUTTON_X, HOW_TO_PLAY_BUTTON_Y, &clipHowToPlayButton);
+            homeScreen.RenderTexture(renderer, 0, 0, &clipHomeScreen);
+            playButton.RenderTexture(renderer, PLAY_BUTTON_X + 10, PLAY_BUTTON_Y + 10, &clipPlayButton);
+            howToPlayButton.RenderTexture(renderer, HOW_TO_PLAY_BUTTON_X + 10, HOW_TO_PLAY_BUTTON_Y + 10, &clipHowToPlayButton);
             SDL_RenderPresent(renderer);
+
+            // play
             if (play.buttonSprite == 2)
             {
                 bool quitGame = 0;
                 SDL_Event eGame;
+                Tetromino curPiece = rand() % 7;
+                Tetromino nextPiece = rand() % 7;
+                int moveTime = SDL_GetTicks();
                 while (!quitGame)
                 {
+                    // handle event
                     while (SDL_PollEvent(&eGame) != 0)
                     {
+                        if (eGame.type == SDL_QUIT)
+                        {
+                            quitGame = 1;
+                            quitHome = 1;
+                            play.buttonSprite = 0;
+                        }
                         if (eGame.type == SDL_KEYDOWN)
                         {
                             switch (eGame.key.keysym.sym)
-                            case SDLK_ESCAPE:
-                                quitGame = 1;
-                                break;
+                            {
+                                case SDLK_ESCAPE:
+                                {
+                                    quitGame = 1;
+                                    play.buttonSprite = 0;
+                                    break;
+                                }
+
+                                case SDLK_DOWN:
+                                {
+                                    Tetromino tmpPiece = curPiece;
+                                    tmpPiece.MoveDown();
+                                    if (game.ValidMove(tmpPiece))
+                                        curPiece.MoveDown();
+                                    else
+                                    {
+                                        curPiece = nextPiece;
+                                        nextPiece = rand() % 7;
+                                        moveTime = SDL_GetTicks();
+                                    }
+                                    break;
+                                }
+
+                                case SDLK_LEFT:
+                                {
+                                    Tetromino tmpPiece = curPiece;
+                                    tmpPiece.MoveLeft();
+                                    if (game.ValidMove(tmpPiece))
+                                        curPiece.MoveLeft();
+                                    break;
+                                }
+
+                                case SDLK_RIGHT:
+                                {
+                                    Tetromino tmpPiece = curPiece;
+                                    tmpPiece.MoveRight();
+                                    if (game.ValidMove(tmpPiece))
+                                        curPiece.MoveRight();
+                                    break;
+                                }
+
+                                case SDLK_x:
+                                {
+                                    Tetromino tmpPiece = curPiece;
+                                    tmpPiece.RotateCW();
+                                    if (game.ValidMove(tmpPiece))
+                                        curPiece.RotateCW();
+                                    break;
+                                }
+
+                                case SDLK_z:
+                                {
+                                    Tetromino tmpPiece = curPiece;
+                                    tmpPiece.RotateCCW();
+                                    if (game.ValidMove(tmpPiece))
+                                        curPiece.RotateCCW();
+                                    break;
+                                }
+                            }
                         }
-                        if (eGame.type == SDL_QUIT)
-                            quitGame = 1, quitHome = 1;
                     }
+
+                    // load board
                     SDL_RenderClear(renderer);
                     game.DrawBoard(renderer);
                     game.DrawTetromino(renderer);
-                    Tetromino test(6);
-                    test.Draw(renderer);
+                    curPiece.Draw(renderer);
+                    SDL_RenderPresent(renderer);
+
+                    if (SDL_GetTicks() > moveTime)
+                    {
+                        moveTime += 1000;
+                        Tetromino tmpPiece = curPiece;
+                        tmpPiece.MoveDown();
+                        if (game.ValidMove(tmpPiece))
+                            curPiece.MoveDown();
+                        else
+                        {
+                            curPiece = nextPiece;
+                            nextPiece = rand() % 7;
+                            moveTime = SDL_GetTicks();
+                        }
+                    }
+
+                }
+            }
+
+            // h2p
+            if (howToPlay.buttonSprite == 2)
+            {
+                bool quitHTP = 0;
+                SDL_Event eHTP;
+                while (!quitHTP)
+                {
+                    // handle event
+                    while (SDL_PollEvent(&eHTP) != 0)
+                    {
+                        if (eHTP.type == SDL_KEYDOWN)
+                        {
+                            if (eHTP.key.keysym.sym == SDLK_ESCAPE)
+                                quitHTP = 1, howToPlay.buttonSprite = 0;
+                        }
+                        if (eHTP.type == SDL_QUIT)
+                            quitHTP = 1, quitHome = 1;
+                    }
+
+                    // load h2p
+                    SDL_RenderClear(renderer);
+                    homeScreen.RenderTexture(renderer, 0, 0, &clipHomeScreen);
+                    settings.RenderTexture(renderer, WIDTH / 4, HEIGHT / 4, &clipSettings);
                     SDL_RenderPresent(renderer);
                 }
             }

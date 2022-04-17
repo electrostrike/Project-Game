@@ -9,19 +9,20 @@ class Tetromino
 {
     public:
         Tetromino(int block);
+        ~Tetromino();
         void Draw(SDL_Renderer* renderer);
         void MoveLeft();
         void MoveRight();
         void MoveDown();
-        void RotateCW();
-        void RotateCCW();
+        void RotateCW(); // rotate right
+        void RotateCCW(); // rotate left
+        int block; //I - J - L - O - S - T - Z
+        int x;
+        int y;
+        int rotation; //0 - 90 - 180 - 270
+        bool piece[4][4][4]; //Rotation - Y (Row) - X (Column)
 
     private:
-        int cur_block; //I - J - L - O - S - T - Z
-        int cur_x;
-        int cur_y;
-        int cur_rotation; //0 - 90 - 180 - 270
-        bool cur_piece[4][4][4]; //Rotation - Y (Row) - X (Column)
 };
 
 #endif // TETROMINO_HPP
