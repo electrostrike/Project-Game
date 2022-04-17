@@ -20,11 +20,7 @@ Button::Button(int x, int y, int w, int h)
 
 Button::~Button()
 {
-    buttonSprite = 0;
-    cur_x = 0;
-    cur_y = 0;
-    width = 0;
-    height = 0;
+
 }
 
 void Button::RenderButton(SDL_Renderer* renderer, Texture buttonTexture, SDL_Rect* clip)

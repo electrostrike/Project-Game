@@ -9,12 +9,7 @@ Texture::Texture()
 
 Texture::~Texture()
 {
-    if (texture != NULL)
-    {
-        texture = NULL;
-        width = 0;
-        height = 0;
-    }
+
 }
 
 void Texture::LoadTexture(string path, SDL_Renderer* renderer)
