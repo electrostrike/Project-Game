@@ -1,4 +1,8 @@
 # Project-Game
-A project in which weighs ~40% of my grades in my Advanced Programming class
+A project for my Advanced Programming class
 
-My game is Tetris - a block stacking game
+This game is called Tetris - a block-stacking game, where you need to place blocks of 4 square adjacent pieces (tetrominos) to a limited board and fill as many horizontal lines as possible to clear them.
+
+The goal is to survive and score by clearing lines.
+
+This version will be similar to NTSC Tetris with a bit of Modern Tetris.
