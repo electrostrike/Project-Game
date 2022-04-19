@@ -18,7 +18,9 @@ class Button
         Button();
         Button(int x, int y, int w, int h);
         ~Button();
+
         int buttonSprite; // Mouse Out - Mouse Over - Mouse Down - Mouse Up
+
         void RenderButton(SDL_Renderer* renderer, Texture buttonTexture, SDL_Rect* clip);
         void HandleEvent(SDL_Event* e);
 

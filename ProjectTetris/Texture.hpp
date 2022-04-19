@@ -13,6 +13,7 @@ class Texture
     public:
         Texture();
         ~Texture();
+
         void LoadTexture(string path, SDL_Renderer* renderer);
         void RenderTexture(SDL_Renderer* renderer, int x, int y, SDL_Rect* clip);
 
