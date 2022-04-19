@@ -9,7 +9,9 @@ Board::Board()
 
 Board::~Board()
 {
-
+    for (int i = 0; i < BOARD_WIDTH; i++)
+        for (int j = 0; j < BOARD_HEIGHT; j++)
+            board[i][j] = -1;
 }
 
 void Board::DrawBoard(SDL_Renderer* renderer)
@@ -26,9 +28,8 @@ void Board::DrawBoard(SDL_Renderer* renderer)
 
 void Board::DrawTetromino(SDL_Renderer* renderer)
 {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-    for (int i = 0; i < 10; i++)
-        for (int j = 0; j < 20; j++)
+    for (int i = 0; i < BOARD_WIDTH; i++)
+        for (int j = 0; j < BOARD_HEIGHT; j++)
         {
             switch (board[i][j])
             {
@@ -59,10 +60,19 @@ void Board::DrawTetromino(SDL_Renderer* renderer)
                 case 6: // Z
                     SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff);
                     break;
+
+                default:
+                    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff);
+                    break;
             }
             SDL_Rect rect{i * SQUARE + 250 + 1, j * SQUARE + 1, SQUARE - 1, SQUARE - 1};
             SDL_RenderFillRect(renderer, &rect);
         }
+}
+
+bool Board::InBoard(int x, int y)
+{
+    return (x >= 0 && x < BOARD_WIDTH && y < BOARD_HEIGHT);
 }
 
 bool Board::ValidMove(Tetromino tt)
@@ -70,19 +80,63 @@ bool Board::ValidMove(Tetromino tt)
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
         {
-            if (board[i + tt.x][j + tt.y] != -1 && tt.piece[tt.rotation][i][j] != 0)
+            if (InBoard(i + tt.x, j + tt.y) && board[i + tt.x][j + tt.y] != -1 && tt.piece[tt.rotation][i][j] != 0)
                 return 0;
-            if (tt.piece[tt.rotation][i][j] != 0 && (i + tt.x < 0 || i + tt.x >= BOARD_WIDTH || j + tt.y >= BOARD_HEIGHT))
+            if (tt.piece[tt.rotation][i][j] != 0 && !InBoard(i + tt.x, j + tt.y))
                 return 0;
         }
     return 1;
+}
+
+void Board::Unite(Tetromino tt)
+{
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (tt.piece[tt.rotation][i][j])
+                board[i + tt.x][j + tt.y] = tt.block;
+}
+
+int Board::ClearLines()
+{
+    int linesCleared = 0;
+    for (int j = 0; j < BOARD_HEIGHT; j++)
+    {
+        bool filled = 1;
+        for (int i = 0; i < BOARD_WIDTH; i++)
+            if (board[i][j] == -1)
+                filled = 0;
+        if (filled)
+        {
+            linesCleared++;
+            for (int y = j; y > 0; y--)
+                for (int x = 0; x < BOARD_WIDTH; x++)
+                    board[x][y] = board[x][y - 1];
+            for (int x = 0; x < BOARD_WIDTH; x++)
+                board[x][0] = -1;
+        }
+    }
+    return linesCleared;
 }
 
 bool Board::GameOver(Tetromino tt)
 {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
-            if (board[i + tt.x][j + tt.y] != -1 && tt.piece[tt.rotation][i][j] != 0)
-                return 0;
-    return 1;
+            if (InBoard(i + tt.x, j + tt.y) && board[i + tt.x][j + tt.y] != -1 && tt.piece[tt.rotation][i][j] != 0)
+                return 1;
+    return 0;
+}
+
+void Board::DrawGameOver(SDL_Renderer* renderer)
+{
+    SDL_SetRenderDrawColor(renderer, 0xDC, 0xDC, 0xDC, 0xFF);
+    for (int i = 0; i < BOARD_WIDTH; i++)
+        for (int j = 0; j < BOARD_HEIGHT; j++)
+        {
+            if (board[i][j] != -1)
+            {
+                SDL_Rect rect{i * SQUARE + 250 + 1, j * SQUARE + 1, SQUARE - 1, SQUARE - 1};
+                SDL_RenderFillRect(renderer, &rect);
+            }
+        }
 }

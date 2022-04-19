@@ -13,12 +13,17 @@ class Board
     public:
         Board();
         ~Board();
+
         void DrawBoard(SDL_Renderer* renderer);
         void DrawTetromino(SDL_Renderer* renderer);
+
         bool InBoard(int x, int y);
         bool ValidMove(Tetromino tt);
         void Unite(Tetromino tt);
+        int ClearLines();
+
         bool GameOver(Tetromino tt);
+        void DrawGameOver(SDL_Renderer* renderer);
 
     private:
         int board[BOARD_WIDTH][BOARD_HEIGHT]; // I - J - L - O - S - T - Z

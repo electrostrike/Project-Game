@@ -3,8 +3,8 @@
 Tetromino::Tetromino(int _block)
 {
     rotation = 0;
-    x = 3;
-    y = -2;
+    x = 13;
+    y = 0;
     block = _block;
     for (int rotation = 0; rotation < 4; rotation++)
         for (int i = 0; i < 4; i++)
@@ -254,3 +254,8 @@ void Tetromino::RotateCCW() // rotate left
         rotation = 3;
 }
 
+void Tetromino::MoveToBoard()
+{
+    x -= 10;
+    y -= 2;
+}

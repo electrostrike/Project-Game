@@ -29,7 +29,11 @@ Texture howToPlayButton;
 SDL_Rect clipSettings = {0, 0, WIDTH / 2, HEIGHT / 2};
 Texture settings;
 
-Board game;
+Board board;
+
+const int FRAME = 17;
+int level = 0;
+int gravity[] = {48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1};
 
 bool init()
 {
@@ -119,17 +123,19 @@ int main(int argc, char* argv[])
             howToPlayButton.RenderTexture(renderer, HOW_TO_PLAY_BUTTON_X + 10, HOW_TO_PLAY_BUTTON_Y + 10, &clipHowToPlayButton);
             SDL_RenderPresent(renderer);
 
-            // play
+            // play screen
             if (play.buttonSprite == 2)
             {
+                // playing
+                level = 18;
                 bool quitGame = 0;
                 SDL_Event eGame;
                 Tetromino curPiece = rand() % 7;
+                curPiece.MoveToBoard();
                 Tetromino nextPiece = rand() % 7;
                 int moveTime = SDL_GetTicks();
                 while (!quitGame)
                 {
-                    // handle event
                     while (SDL_PollEvent(&eGame) != 0)
                     {
                         if (eGame.type == SDL_QUIT)
@@ -146,6 +152,7 @@ int main(int argc, char* argv[])
                                 {
                                     quitGame = 1;
                                     play.buttonSprite = 0;
+                                    board.~Board();
                                     break;
                                 }
 
@@ -153,13 +160,22 @@ int main(int argc, char* argv[])
                                 {
                                     Tetromino tmpPiece = curPiece;
                                     tmpPiece.MoveDown();
-                                    if (game.ValidMove(tmpPiece))
+                                    if (board.ValidMove(tmpPiece))
                                         curPiece.MoveDown();
                                     else
                                     {
-                                        curPiece = nextPiece;
-                                        nextPiece = rand() % 7;
-                                        moveTime = SDL_GetTicks();
+                                        if (board.GameOver(curPiece))
+                                            quitGame = 1;
+                                        else
+                                        {
+                                            SDL_Delay(100);
+                                            board.Unite(curPiece);
+                                            board.ClearLines();
+                                            curPiece = nextPiece;
+                                            curPiece.MoveToBoard();
+                                            nextPiece = rand() % 7;
+                                            moveTime = SDL_GetTicks();
+                                        }
                                     }
                                     break;
                                 }
@@ -168,7 +184,7 @@ int main(int argc, char* argv[])
                                 {
                                     Tetromino tmpPiece = curPiece;
                                     tmpPiece.MoveLeft();
-                                    if (game.ValidMove(tmpPiece))
+                                    if (board.ValidMove(tmpPiece))
                                         curPiece.MoveLeft();
                                     break;
                                 }
@@ -177,7 +193,7 @@ int main(int argc, char* argv[])
                                 {
                                     Tetromino tmpPiece = curPiece;
                                     tmpPiece.MoveRight();
-                                    if (game.ValidMove(tmpPiece))
+                                    if (board.ValidMove(tmpPiece))
                                         curPiece.MoveRight();
                                     break;
                                 }
@@ -186,7 +202,7 @@ int main(int argc, char* argv[])
                                 {
                                     Tetromino tmpPiece = curPiece;
                                     tmpPiece.RotateCW();
-                                    if (game.ValidMove(tmpPiece))
+                                    if (board.ValidMove(tmpPiece))
                                         curPiece.RotateCW();
                                     break;
                                 }
@@ -195,7 +211,7 @@ int main(int argc, char* argv[])
                                 {
                                     Tetromino tmpPiece = curPiece;
                                     tmpPiece.RotateCCW();
-                                    if (game.ValidMove(tmpPiece))
+                                    if (board.ValidMove(tmpPiece))
                                         curPiece.RotateCCW();
                                     break;
                                 }
@@ -203,39 +219,79 @@ int main(int argc, char* argv[])
                         }
                     }
 
-                    // load board
                     SDL_RenderClear(renderer);
-                    game.DrawBoard(renderer);
-                    game.DrawTetromino(renderer);
+                    board.DrawBoard(renderer);
+                    board.DrawTetromino(renderer);
                     curPiece.Draw(renderer);
+                    nextPiece.Draw(renderer);
                     SDL_RenderPresent(renderer);
 
                     if (SDL_GetTicks() > moveTime)
                     {
-                        moveTime += 1000;
+                        moveTime += FRAME * gravity[level];
                         Tetromino tmpPiece = curPiece;
                         tmpPiece.MoveDown();
-                        if (game.ValidMove(tmpPiece))
+                        if (board.ValidMove(tmpPiece))
                             curPiece.MoveDown();
                         else
                         {
-                            curPiece = nextPiece;
-                            nextPiece = rand() % 7;
-                            moveTime = SDL_GetTicks();
+                            if (board.GameOver(curPiece))
+                                quitGame = 1;
+                            else
+                            {
+                                SDL_Delay(100);
+                                board.Unite(curPiece);
+                                board.ClearLines();
+                                curPiece = nextPiece;
+                                curPiece.MoveToBoard();
+                                nextPiece = rand() % 7;
+                                moveTime = SDL_GetTicks();
+                            }
                         }
                     }
+                }
 
+                // game over
+                if (play.buttonSprite == 2)
+                {
+                    bool returnToMenu = 0;
+                    while (!returnToMenu)
+                    {
+                        while (SDL_PollEvent(&eGame) != 0)
+                        {
+                            if (eGame.type == SDL_QUIT)
+                            {
+                                quitGame = 1;
+                                quitHome = 1;
+                                returnToMenu = 1;
+                                play.buttonSprite = 0;
+                            }
+                            if (eGame.type == SDL_KEYDOWN)
+                            {
+                                if (eGame.key.keysym.sym == SDLK_ESCAPE)
+                                {
+                                    quitGame = 1;
+                                    returnToMenu = 1;
+                                    play.buttonSprite = 0;
+                                    board.~Board();
+                                }
+                            }
+                        }
+                        SDL_RenderClear(renderer);
+                        board.DrawBoard(renderer);
+                        board.DrawGameOver(renderer);
+                        SDL_RenderPresent(renderer);
+                    }
                 }
             }
 
-            // h2p
+            // how to play screen
             if (howToPlay.buttonSprite == 2)
             {
                 bool quitHTP = 0;
                 SDL_Event eHTP;
                 while (!quitHTP)
                 {
-                    // handle event
                     while (SDL_PollEvent(&eHTP) != 0)
                     {
                         if (eHTP.type == SDL_KEYDOWN)
@@ -247,7 +303,6 @@ int main(int argc, char* argv[])
                             quitHTP = 1, quitHome = 1;
                     }
 
-                    // load h2p
                     SDL_RenderClear(renderer);
                     homeScreen.RenderTexture(renderer, 0, 0, &clipHomeScreen);
                     settings.RenderTexture(renderer, WIDTH / 4, HEIGHT / 4, &clipSettings);

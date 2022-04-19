@@ -8,14 +8,20 @@ using namespace std;
 class Tetromino
 {
     public:
-        Tetromino(int block);
+        Tetromino(int _block); // piece initialize at queue
         ~Tetromino();
+
         void Draw(SDL_Renderer* renderer);
+
         void MoveLeft();
         void MoveRight();
         void MoveDown();
         void RotateCW(); // rotate right
         void RotateCCW(); // rotate left
+
+        void MoveToBoard(); // move piece from queue to board
+
+        // public variables for easy access
         int block; //I - J - L - O - S - T - Z
         int x;
         int y;
