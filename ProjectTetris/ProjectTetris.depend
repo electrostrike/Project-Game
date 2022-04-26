@@ -394,31 +394,70 @@
 	<SDL_image.h>
 	"Texture.hpp"
 
-1648444465 source:c:\users\admin\projecttetris\texture.cpp
+1650770016 source:c:\users\admin\projecttetris\texture.cpp
 	"Texture.hpp"
 
-1648481430 c:\users\admin\projecttetris\texture.hpp
+1650968247 c:\users\admin\projecttetris\texture.hpp
 	<iostream>
-	<cstring>
+	<string>
+	<cstdlib>
+	<ctime>
+	<algorithm>
 	<SDL.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
 	<SDL_image.h>
 
-1648402411 source:c:\users\admin\projecttetris\tetromino.cpp
+1650718316 source:c:\users\admin\projecttetris\tetromino.cpp
 	"Tetromino.hpp"
 
-1648400644 c:\users\admin\projecttetris\tetromino.hpp
+1650879817 c:\users\admin\projecttetris\tetromino.hpp
 	"Texture.hpp"
 
-1648482613 source:c:\users\admin\projecttetris\main.cpp
-	<bits/stdc++.h>
-	<SDL.h>
-	<SDL_image.h>
+1650939252 source:c:\users\admin\projecttetris\main.cpp
 	"Texture.hpp"
+	"Button.hpp"
+	"Board.hpp"
 	"Tetromino.hpp"
 
-1648486554 source:c:\users\admin\projecttetris\button.cpp
+1650220043 source:c:\users\admin\projecttetris\button.cpp
 	"Button.hpp"
 
-1648486529 c:\users\admin\projecttetris\button.hpp
+1650770259 c:\users\admin\projecttetris\button.hpp
 	"Texture.hpp"
+
+1650968188 source:c:\users\admin\projecttetris\board.cpp
+	"Board.hpp"
+
+1650968256 c:\users\admin\projecttetris\board.hpp
+	"Texture.hpp"
+	"Tetromino.hpp"
+
+1649842492 source:c:\users\admin\projecttetris\game.cpp
+
+1641928995 c:\users\admin\onedrive\documents\sdl2_ttf-2.0.18\x86_64-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1540998018 c:\users\admin\onedrive\documents\sdl2_mixer-2.0.4\x86_64-w64-mingw32\include\sdl2\sdl_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1650740719 c:\users\admin\projecttetris\gamebase.hpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<SDL.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+	<SDL_image.h>
+
+1650739988 source:c:\users\admin\projecttetris\gamebase.cpp
+	"GameBase.hpp"
 

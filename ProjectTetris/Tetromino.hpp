@@ -1,16 +1,18 @@
 #ifndef TETROMINO_HPP
 #define TETROMINO_HPP
-
 #include "Texture.hpp"
 
 using namespace std;
 
+const int BLOCK_PIXEL = 30;
+
 class Tetromino
 {
     public:
-        Tetromino(int _block); // piece initialize at queue
+        Tetromino(); // piece initialize at queue
         ~Tetromino();
 
+        void Init(int _block, int _rotation, int _x, int _y);
         void Draw(SDL_Renderer* renderer);
 
         void MoveLeft();
@@ -19,9 +21,10 @@ class Tetromino
         void RotateCW(); // rotate right
         void RotateCCW(); // rotate left
 
-        void MoveToBoard(); // move piece from queue to board
+        void Move(int _x, int _y); // move piece from queue to board
 
         // public variables for easy access
+        int counts;
         int block; //I - J - L - O - S - T - Z
         int x;
         int y;

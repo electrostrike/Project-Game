@@ -1,11 +1,21 @@
 #include "Tetromino.hpp"
 
-Tetromino::Tetromino(int _block)
+Tetromino::Tetromino()
 {
-    rotation = 0;
-    x = 13;
-    y = 0;
+
+}
+
+Tetromino::~Tetromino()
+{
+
+}
+
+void Tetromino::Init(int _block, int _rotation, int _x, int _y)
+{
     block = _block;
+    rotation = _rotation;
+    x = _x;
+    y = _y;
     for (int rotation = 0; rotation < 4; rotation++)
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 4; j++)
@@ -175,11 +185,6 @@ Tetromino::Tetromino(int _block)
     }
 }
 
-Tetromino::~Tetromino()
-{
-
-}
-
 void Tetromino::Draw(SDL_Renderer *renderer)
 {
     //set color
@@ -254,8 +259,8 @@ void Tetromino::RotateCCW() // rotate left
         rotation = 3;
 }
 
-void Tetromino::MoveToBoard()
+void Tetromino::Move(int _x, int _y)
 {
-    x -= 10;
-    y -= 2;
+    x += _x;
+    y += _y;
 }

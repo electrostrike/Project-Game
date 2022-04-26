@@ -32,12 +32,22 @@
 			<Add option="-Wall" />
 			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2-2.0.20/x86_64-w64-mingw32/include/SDL2" />
 			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_image-2.0.5/x86_64-w64-mingw32/include/SDL2" />
+			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_ttf-2.0.18/x86_64-w64-mingw32/include/SDL2" />
+			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_mixer-2.0.4/x86_64-w64-mingw32/include/SDL2" />
 		</Compiler>
 		<Linker>
-			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image" />
+			<Add option="-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer" />
 			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2-2.0.20/x86_64-w64-mingw32/lib" />
 			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_image-2.0.5/x86_64-w64-mingw32/lib" />
+			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_ttf-2.0.18/x86_64-w64-mingw32/lib" />
+			<Add directory="C:/Users/Admin/OneDrive/Documents/SDL2_mixer-2.0.4/x86_64-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="Board.cpp" />
+		<Unit filename="Board.hpp" />
+		<Unit filename="Button.cpp" />
+		<Unit filename="Button.hpp" />
+		<Unit filename="Game.cpp" />
+		<Unit filename="Game.hpp" />
 		<Unit filename="Tetromino.cpp" />
 		<Unit filename="Tetromino.hpp" />
 		<Unit filename="Texture.cpp" />

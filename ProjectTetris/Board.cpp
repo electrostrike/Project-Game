@@ -2,12 +2,15 @@
 
 Board::Board()
 {
-    for (int i = 0; i < BOARD_WIDTH; i++)
-        for (int j = 0; j < BOARD_HEIGHT; j++)
-            board[i][j] = -1;
+
 }
 
 Board::~Board()
+{
+
+}
+
+void Board::Init()
 {
     for (int i = 0; i < BOARD_WIDTH; i++)
         for (int j = 0; j < BOARD_HEIGHT; j++)
@@ -21,9 +24,23 @@ void Board::DrawBoard(SDL_Renderer* renderer)
     SDL_RenderFillRect(renderer, &rect);
     SDL_SetRenderDrawColor(renderer, 0xDC, 0xDC, 0xDC, 0xFF);
     for (int i = 0; i <= BOARD_WIDTH; i++)
-        SDL_RenderDrawLine(renderer, 250 + i * SQUARE, 0, 250 + i * SQUARE, 600);
+        SDL_RenderDrawLine(renderer, 250 + i * BLOCK_PIXEL, 0, 250 + i * BLOCK_PIXEL, 600);
     for (int j = 0; j <= BOARD_HEIGHT; j++)
-        SDL_RenderDrawLine(renderer, 250, j * SQUARE, 550, j * SQUARE);
+        SDL_RenderDrawLine(renderer, 250, j * BLOCK_PIXEL, 550, j * BLOCK_PIXEL);
+}
+
+void Board::DrawGameOver(SDL_Renderer* renderer)
+{
+    SDL_SetRenderDrawColor(renderer, 0xDC, 0xDC, 0xDC, 0xFF);
+    for (int i = 0; i < BOARD_WIDTH; i++)
+        for (int j = 0; j < BOARD_HEIGHT; j++)
+        {
+            if (board[i][j] != -1)
+            {
+                SDL_Rect rect{i * BLOCK_PIXEL + 250 + 1, j * BLOCK_PIXEL + 1, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+                SDL_RenderFillRect(renderer, &rect);
+            }
+        }
 }
 
 void Board::DrawTetromino(SDL_Renderer* renderer)
@@ -65,9 +82,50 @@ void Board::DrawTetromino(SDL_Renderer* renderer)
                     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xff);
                     break;
             }
-            SDL_Rect rect{i * SQUARE + 250 + 1, j * SQUARE + 1, SQUARE - 1, SQUARE - 1};
+            SDL_Rect rect{i * BLOCK_PIXEL + 250 + 1, j * BLOCK_PIXEL + 1, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
             SDL_RenderFillRect(renderer, &rect);
         }
+}
+
+void Board::DrawBlockCount(SDL_Renderer* renderer)
+{
+    SDL_Rect rect;
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0xff, 0xff); // I
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xff, 0xff); // J
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 70, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0xff, 0x7f, 0x00, 0xff); // L
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 140, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0x00, 0xff); // O
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 210, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 0xff); // S
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 280, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0x80, 0x00, 0x80, 0xff); // T
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 350, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+    SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff); // Z
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 420, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+
+
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0xff, 0xff); // I drought
+    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 490, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    SDL_RenderFillRect(renderer, &rect);
+    SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff);
+    SDL_RenderDrawLine(renderer, BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 490, BLOCK_POS_X - 40 + BLOCK_PIXEL - 1, BLOCK_POS_Y - 5 + 490 + BLOCK_PIXEL - 1);
+    SDL_RenderDrawLine(renderer, BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 490 + BLOCK_PIXEL - 1, BLOCK_POS_X - 40 + BLOCK_PIXEL - 1, BLOCK_POS_Y - 5 + 490);
 }
 
 bool Board::InBoard(int x, int y)
@@ -125,18 +183,4 @@ bool Board::GameOver(Tetromino tt)
             if (InBoard(i + tt.x, j + tt.y) && board[i + tt.x][j + tt.y] != -1 && tt.piece[tt.rotation][i][j] != 0)
                 return 1;
     return 0;
-}
-
-void Board::DrawGameOver(SDL_Renderer* renderer)
-{
-    SDL_SetRenderDrawColor(renderer, 0xDC, 0xDC, 0xDC, 0xFF);
-    for (int i = 0; i < BOARD_WIDTH; i++)
-        for (int j = 0; j < BOARD_HEIGHT; j++)
-        {
-            if (board[i][j] != -1)
-            {
-                SDL_Rect rect{i * SQUARE + 250 + 1, j * SQUARE + 1, SQUARE - 1, SQUARE - 1};
-                SDL_RenderFillRect(renderer, &rect);
-            }
-        }
 }
