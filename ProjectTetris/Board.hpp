@@ -7,12 +7,8 @@
 const int BOARD_WIDTH = 10;
 const int BOARD_HEIGHT = 20;
 
-const int BLOCK_POS_X = 180;
-const int BLOCK_POS_Y = 45;
-
-const int FRAME = 17; // ceil(1000 / 60)
-const int gravity[] = {48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1};
-const int points[] = {0, 40, 100, 300, 1200};
+const int BLOCK_COUNT_X = 180;
+const int BLOCK_COUNT_Y = 45;
 
 class Board
 {

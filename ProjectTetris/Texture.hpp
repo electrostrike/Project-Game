@@ -13,6 +13,12 @@
 
 using namespace std;
 
+const int WIDTH = 800;
+const int HEIGHT = 600;
+
+const int HOW_TO_PLAY_X = 100;
+const int HOW_TO_PLAY_Y = 150;
+
 const int TEXT_PIXEL = 20;
 
 const int TEXT_POS_X = 600;

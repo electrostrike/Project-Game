@@ -11,6 +11,7 @@ class Tetromino
     public:
         Tetromino(); // piece initialize at queue
         ~Tetromino();
+        void Move(int _x, int _y); // move piece from queue to board
 
         void Init(int _block, int _rotation, int _x, int _y);
         void Draw(SDL_Renderer* renderer);
@@ -21,10 +22,7 @@ class Tetromino
         void RotateCW(); // rotate right
         void RotateCCW(); // rotate left
 
-        void Move(int _x, int _y); // move piece from queue to board
-
         // public variables for easy access
-        int counts;
         int block; //I - J - L - O - S - T - Z
         int x;
         int y;

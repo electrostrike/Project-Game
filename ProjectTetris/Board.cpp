@@ -92,40 +92,40 @@ void Board::DrawBlockCount(SDL_Renderer* renderer)
     SDL_Rect rect;
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0xff, 0xff); // I
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xff, 0xff); // J
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 70, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 70, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
     SDL_SetRenderDrawColor(renderer, 0xff, 0x7f, 0x00, 0xff); // L
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 140, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 140, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
     SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0x00, 0xff); // O
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 210, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 210, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0x00, 0xff); // S
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 280, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 280, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
     SDL_SetRenderDrawColor(renderer, 0x80, 0x00, 0x80, 0xff); // T
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 350, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 350, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
     SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff); // Z
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 420, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 420, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
 
 
     SDL_SetRenderDrawColor(renderer, 0x00, 0xff, 0xff, 0xff); // I drought
-    rect = {BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 490, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
+    rect = {BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 490, BLOCK_PIXEL - 1, BLOCK_PIXEL - 1};
     SDL_RenderFillRect(renderer, &rect);
     SDL_SetRenderDrawColor(renderer, 0xff, 0x00, 0x00, 0xff);
-    SDL_RenderDrawLine(renderer, BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 490, BLOCK_POS_X - 40 + BLOCK_PIXEL - 1, BLOCK_POS_Y - 5 + 490 + BLOCK_PIXEL - 1);
-    SDL_RenderDrawLine(renderer, BLOCK_POS_X - 40, BLOCK_POS_Y - 5 + 490 + BLOCK_PIXEL - 1, BLOCK_POS_X - 40 + BLOCK_PIXEL - 1, BLOCK_POS_Y - 5 + 490);
+    SDL_RenderDrawLine(renderer, BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 490, BLOCK_COUNT_X - 40 + BLOCK_PIXEL - 1, BLOCK_COUNT_Y - 5 + 490 + BLOCK_PIXEL - 1);
+    SDL_RenderDrawLine(renderer, BLOCK_COUNT_X - 40, BLOCK_COUNT_Y - 5 + 490 + BLOCK_PIXEL - 1, BLOCK_COUNT_X - 40 + BLOCK_PIXEL - 1, BLOCK_COUNT_Y - 5 + 490);
 }
 
 bool Board::InBoard(int x, int y)

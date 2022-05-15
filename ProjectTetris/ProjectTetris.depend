@@ -394,10 +394,10 @@
 	<SDL_image.h>
 	"Texture.hpp"
 
-1650770016 source:c:\users\admin\projecttetris\texture.cpp
+1652429541 source:c:\users\admin\projecttetris\texture.cpp
 	"Texture.hpp"
 
-1650968247 c:\users\admin\projecttetris\texture.hpp
+1652612986 c:\users\admin\projecttetris\texture.hpp
 	<iostream>
 	<string>
 	<cstdlib>
@@ -408,32 +408,30 @@
 	<SDL_mixer.h>
 	<SDL_image.h>
 
-1650718316 source:c:\users\admin\projecttetris\tetromino.cpp
+1652529912 source:c:\users\admin\projecttetris\tetromino.cpp
 	"Tetromino.hpp"
 
-1650879817 c:\users\admin\projecttetris\tetromino.hpp
+1652529839 c:\users\admin\projecttetris\tetromino.hpp
 	"Texture.hpp"
 
-1650939252 source:c:\users\admin\projecttetris\main.cpp
-	"Texture.hpp"
-	"Button.hpp"
-	"Board.hpp"
-	"Tetromino.hpp"
+1652113992 source:c:\users\admin\projecttetris\main.cpp
+	"Game.hpp"
 
-1650220043 source:c:\users\admin\projecttetris\button.cpp
+1652429541 source:c:\users\admin\projecttetris\button.cpp
 	"Button.hpp"
 
-1650770259 c:\users\admin\projecttetris\button.hpp
+1652429541 c:\users\admin\projecttetris\button.hpp
 	"Texture.hpp"
 
-1650968188 source:c:\users\admin\projecttetris\board.cpp
+1652529873 source:c:\users\admin\projecttetris\board.cpp
 	"Board.hpp"
 
-1650968256 c:\users\admin\projecttetris\board.hpp
+1652529868 c:\users\admin\projecttetris\board.hpp
 	"Texture.hpp"
 	"Tetromino.hpp"
 
-1649842492 source:c:\users\admin\projecttetris\game.cpp
+1652613174 source:c:\users\admin\projecttetris\game.cpp
+	"Game.hpp"
 
 1641928995 c:\users\admin\onedrive\documents\sdl2_ttf-2.0.18\x86_64-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL.h"
@@ -460,4 +458,10 @@
 
 1650739988 source:c:\users\admin\projecttetris\gamebase.cpp
 	"GameBase.hpp"
+
+1652613825 c:\users\admin\projecttetris\game.hpp
+	"Texture.hpp"
+	"Button.hpp"
+	"Board.hpp"
+	"Tetromino.hpp"
 
