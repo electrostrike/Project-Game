@@ -382,6 +382,7 @@ void Game::RunGame()
                             playMusic = 1;
                             Mix_PlayMusic(bgm, -1);
                         }
+                        break;
                     }
 
                     case SDLK_n:
@@ -390,6 +391,7 @@ void Game::RunGame()
                             playHitsound = 0;
                         else
                             playHitsound = 1;
+                        break;
                     }
 
                     case SDLK_DOWN:
